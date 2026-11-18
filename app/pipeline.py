@@ -291,6 +291,9 @@ def _render_with_purffle(script_path: Path, media_dir: Path, output_dir: Path, l
     env["SCRIPT_REVIEW"] = "off"
     env["CAPTION_EMOJI"] = env.get("CAPTION_EMOJI", "true")
     env["MADE_FOR_KIDS"] = "true"
+    # One Claude-drawn illustration per scene is meant to fill that whole scene (a storybook page), not be
+    # cut into several shots — 0 disables purffle-shorts' default 4.5s shot-splitting.
+    env["MAX_SHOT_SECONDS"] = "0"
 
     cmd = [
         "python", "-m", "purffle_shorts", "make",
