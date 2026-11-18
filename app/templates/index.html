@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Çocuk Video Stüdyosu</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main class="wrap">
+  <h1>🎬 Çocuk Video Stüdyosu</h1>
+  <p class="sub">Konuyu, dili ve tasarım tarzını seç — Claude hikayeyi yazsın, her sahneyi çizsin.</p>
+
+  <form id="form">
+    <label>Konu
+      <textarea name="topic" rows="2" placeholder="Örn: Ormanda kaybolan ve yoluna arkadaşlarının yardımıyla dönen küçük bir tilki" required></textarea>
+    </label>
+
+    <label>Dil
+      <select name="language">
+        {% for code, name in languages %}
+        <option value="{{ code }}" {% if code == 'tr' %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Tasarım tarzı
+      <input type="text" name="design_style" list="style-presets" placeholder="Örn: suluboya çocuk kitabı illüstrasyonu" required>
+      <datalist id="style-presets">
+        {% for s in style_presets %}
+        <option value="{{ s }}"></option>
+        {% endfor %}
+      </datalist>
+    </label>
+
+    <div class="row">
+      <label>Yön
+        <select name="aspect">
+          <option value="16:9">Yatay (TV/YouTube)</option>
+          <option value="9:16">Dikey (Shorts/Reels)</option>
+          <option value="1:1">Kare</option>
+        </select>
+      </label>
+      <label>Yaş aralığı
+        <select name="age_range">
+          <option value="2-4">2-4</option>
+          <option value="4-8" selected>4-8</option>
+          <option value="8-12">8-12</option>
+        </select>
+      </label>
+    </div>
+
+    <label>Süre (saniye): <span id="dur-val">60</span>
+      <input type="range" name="duration" min="30" max="150" step="10" value="60"
+             oninput="document.getElementById('dur-val').textContent=this.value">
+    </label>
+
+    <button type="submit" id="go">Videoyu Oluştur</button>
+  </form>
+
+  <section id="status" class="status hidden">
+    <div class="bar"><div class="bar-fill" id="bar-fill"></div></div>
+    <p id="status-text">Başlatılıyor…</p>
+  </section>
+
+  <section id="result" class="result hidden">
+    <video id="player" controls playsinline></video>
+    <a id="download" href="#" download>MP4 indir</a>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
